@@ -1,0 +1,20 @@
+# Web Application Configuration
+web:
+  image: nginx:alpine
+  replicaCount: 2
+  port: 80
+  serviceType: ClusterIP
+  ingress:
+    enabled: true
+    host: webapp.example.com  # Change this to your domain or use something like webapp.192.168.1.1.nip.io
+    path: /
+    className: "nginx"
+
+# Database Configuration
+db:
+  image: postgres:13-alpine
+  name: postgres
+  port: 5432
+  user: postgres
+  password: "postgres"
+  database: "webapp"

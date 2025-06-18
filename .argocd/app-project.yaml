@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: web-app
+  namespace: argocd
+spec:
+  description: Web Application with Microservices
+  destinations:
+  - namespace: web-app
+    server: https://kubernetes.default.svc
+  sourceRepos:
+  - https://github.com/your-org/web-app-argo.git
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'

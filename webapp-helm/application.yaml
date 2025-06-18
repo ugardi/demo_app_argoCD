@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: webapp
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/your-repo/webapp-helm.git  # Change to your repo URL
+    targetRevision: HEAD
+    path: webapp-helm
+    helm:
+      values: |
+        web:
+          ingress:
+            host: webapp.192.168.1.1.nip.io  # Replace with your actual IP or domain
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

@@ -1,0 +1,5 @@
+\apiVersion: v2
+name: webapp
+description: A Helm chart for a web application with PostgreSQL database
+version: 0.1.0
+appVersion: "1.0"
