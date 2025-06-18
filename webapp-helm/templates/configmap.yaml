@@ -1,17 +1,411 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Chart.Name }}-html-content
+  name: {{ include "webapp.fullname" . }}-web-content
+  labels:
+    {{- include "webapp.labels" . | nindent 4 }}
 data:
   index.html: |
     <!DOCTYPE html>
-    <html>
+    <html lang="en">
     <head>
-        <title>WebApp with PostgreSQL</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Modern WebApp with PostgreSQL</title>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+        <style>
+            :root {
+                --primary: #4361ee;
+                --secondary: #3f37c9;
+                --accent: #4895ef;
+                --danger: #f72585;
+                --success: #4cc9f0;
+                --light: #f8f9fa;
+                --dark: #212529;
+            }
+            
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            
+            body {
+                font-family: 'Poppins', sans-serif;
+                background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+                min-height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 20px;
+            }
+            
+            .app-container {
+                display: flex;
+                max-width: 1200px;
+                width: 100%;
+                background: white;
+                border-radius: 20px;
+                box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+                overflow: hidden;
+            }
+            
+            .illustration {
+                flex: 1;
+                background: linear-gradient(to bottom right, var(--primary), var(--secondary));
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                padding: 40px;
+                color: white;
+                text-align: center;
+            }
+            
+            .illustration img {
+                width: 80%;
+                max-width: 300px;
+                margin-bottom: 30px;
+            }
+            
+            .illustration h2 {
+                font-size: 24px;
+                margin-bottom: 15px;
+            }
+            
+            .illustration p {
+                opacity: 0.9;
+                font-weight: 300;
+            }
+            
+            .auth-form {
+                flex: 1;
+                padding: 60px 40px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            
+            .logo {
+                text-align: center;
+                margin-bottom: 40px;
+            }
+            
+            .logo img {
+                height: 50px;
+            }
+            
+            .form-title {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+            
+            .form-title h1 {
+                color: var(--dark);
+                font-size: 28px;
+                margin-bottom: 10px;
+            }
+            
+            .form-title p {
+                color: #6c757d;
+                font-size: 14px;
+            }
+            
+            .form-group {
+                margin-bottom: 20px;
+                position: relative;
+            }
+            
+            .form-group label {
+                display: block;
+                margin-bottom: 8px;
+                color: var(--dark);
+                font-weight: 500;
+                font-size: 14px;
+            }
+            
+            .form-control {
+                width: 100%;
+                padding: 12px 15px;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                font-family: 'Poppins', sans-serif;
+                font-size: 14px;
+                transition: all 0.3s;
+            }
+            
+            .form-control:focus {
+                border-color: var(--accent);
+                box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+                outline: none;
+            }
+            
+            .btn {
+                display: block;
+                width: 100%;
+                padding: 12px;
+                border: none;
+                border-radius: 8px;
+                background: var(--primary);
+                color: white;
+                font-family: 'Poppins', sans-serif;
+                font-size: 16px;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.3s;
+            }
+            
+            .btn:hover {
+                background: var(--secondary);
+                transform: translateY(-2px);
+            }
+            
+            .btn:active {
+                transform: translateY(0);
+            }
+            
+            .message {
+                margin-top: 20px;
+                padding: 12px;
+                border-radius: 8px;
+                text-align: center;
+                font-size: 14px;
+                display: none;
+            }
+            
+            .error {
+                background: rgba(247, 37, 133, 0.1);
+                color: var(--danger);
+                display: block;
+            }
+            
+            .success {
+                background: rgba(76, 201, 240, 0.1);
+                color: var(--success);
+                display: block;
+            }
+            
+            .dashboard {
+                display: none;
+                text-align: center;
+            }
+            
+            .dashboard h2 {
+                color: var(--dark);
+                margin-bottom: 20px;
+            }
+            
+            .user-avatar {
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                object-fit: cover;
+                margin-bottom: 20px;
+                border: 5px solid var(--light);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            }
+            
+            .user-info {
+                margin-bottom: 30px;
+            }
+            
+            .logout-btn {
+                background: var(--danger);
+                margin-top: 20px;
+            }
+            
+            .logout-btn:hover {
+                background: #d3166b;
+            }
+            
+            .features {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 40px;
+                flex-wrap: wrap;
+            }
+            
+            .feature {
+                flex: 1;
+                min-width: 150px;
+                margin: 10px;
+                padding: 20px;
+                background: var(--light);
+                border-radius: 10px;
+                text-align: center;
+                transition: all 0.3s;
+            }
+            
+            .feature:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            }
+            
+            .feature img {
+                width: 50px;
+                height: 50px;
+                margin-bottom: 15px;
+            }
+            
+            .feature h3 {
+                font-size: 16px;
+                margin-bottom: 10px;
+                color: var(--dark);
+            }
+            
+            .feature p {
+                font-size: 13px;
+                color: #6c757d;
+            }
+            
+            @media (max-width: 768px) {
+                .app-container {
+                    flex-direction: column;
+                }
+                
+                .illustration {
+                    padding: 30px 20px;
+                }
+                
+                .auth-form {
+                    padding: 40px 20px;
+                }
+            }
+        </style>
     </head>
     <body>
-        <h1>Welcome to Our Web Application</h1>
-        <p>This application is connected to a PostgreSQL database.</p>
-        <p>Application version: {{ .Chart.AppVersion }}</p>
+        <div class="app-container">
+            <div class="illustration">
+                <img src="https://cdn-icons-png.flaticon.com/512/4205/4205813.png" alt="Database Illustration">
+                <h2>Powered by PostgreSQL</h2>
+                <p>Your data is securely stored in our high-performance database cluster</p>
+            </div>
+            
+            <div class="auth-form">
+                <div class="logo">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Cib-kubernetes_%28CoreUI_Icons_v1.0.0%29.svg/1200px-Cib-kubernetes_%28CoreUI_Icons_v1.0.0%29.svg.png" alt="Kubernetes Logo">
+                </div>
+                
+                <div id="login-section">
+                    <div class="form-title">
+                        <h1>Welcome Back!</h1>
+                        <p>Please login to access your dashboard</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" class="form-control" placeholder="Enter your username">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" class="form-control" placeholder="Enter your password">
+                    </div>
+                    
+                    <button class="btn" onclick="login()">Login</button>
+                    
+                    <div id="message" class="message"></div>
+                </div>
+                
+                <div id="dashboard" class="dashboard">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="user-avatar" id="user-avatar">
+                    <div class="user-info">
+                        <h2>Welcome, <span id="logged-in-user"></span>!</h2>
+                        <p>You're successfully logged into our Kubernetes-powered application</p>
+                    </div>
+                    
+                    <div class="features">
+                        <div class="feature">
+                            <img src="https://cdn-icons-png.flaticon.com/512/2779/2779775.png" alt="Database">
+                            <h3>PostgreSQL</h3>
+                            <p>Reliable data storage with our managed database</p>
+                        </div>
+                        <div class="feature">
+                            <img src="https://cdn-icons-png.flaticon.com/512/888/888854.png" alt="Kubernetes">
+                            <h3>Kubernetes</h3>
+                            <p>Scalable container orchestration platform</p>
+                        </div>
+                        <div class="feature">
+                            <img src="https://cdn-icons-png.flaticon.com/512/2620/2620971.png" alt="Helm">
+                            <h3>Helm Charts</h3>
+                            <p>Easy deployment with package management</p>
+                        </div>
+                    </div>
+                    
+                    <button class="btn logout-btn" onclick="logout()">Logout</button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function login() {
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                const message = document.getElementById('message');
+                
+                // Clear previous messages
+                message.className = 'message';
+                message.textContent = '';
+                
+                // Validate inputs
+                if (!username || !password) {
+                    message.className = 'message error';
+                    message.textContent = 'Please enter both username and password';
+                    return;
+                }
+                
+                // Simulate API call
+                setTimeout(() => {
+                    // For demo purposes, accept any non-empty credentials
+                    document.getElementById('login-section').style.display = 'none';
+                    document.getElementById('dashboard').style.display = 'block';
+                    document.getElementById('logged-in-user').textContent = username;
+                    
+                    // Set random avatar color
+                    const colors = ['#4361ee', '#3f37c9', '#4895ef', '#4cc9f0', '#f72585'];
+                    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                    document.getElementById('user-avatar').style.backgroundColor = randomColor;
+                    
+                    // Store session
+                    localStorage.setItem('loggedIn', 'true');
+                    localStorage.setItem('username', username);
+                    
+                    // Show welcome message
+                    message.className = 'message success';
+                    message.textContent = 'Login successful! Redirecting...';
+                }, 1000);
+            }
+            
+            function logout() {
+                document.getElementById('login-section').style.display = 'block';
+                document.getElementById('dashboard').style.display = 'none';
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+                
+                // Clear session
+                localStorage.removeItem('loggedIn');
+                localStorage.removeItem('username');
+                
+                // Show logout message
+                const message = document.getElementById('message');
+                message.className = 'message success';
+                message.textContent = 'You have been logged out successfully';
+            }
+            
+            // Check session on page load
+            window.onload = function() {
+                if (localStorage.getItem('loggedIn') === 'true') {
+                    const username = localStorage.getItem('username');
+                    document.getElementById('login-section').style.display = 'none';
+                    document.getElementById('dashboard').style.display = 'block';
+                    document.getElementById('logged-in-user').textContent = username;
+                    
+                    // Set random avatar color
+                    const colors = ['#4361ee', '#3f37c9', '#4895ef', '#4cc9f0', '#f72585'];
+                    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                    document.getElementById('user-avatar').style.backgroundColor = randomColor;
+                }
+            };
+        </script>
     </body>
     </html>
