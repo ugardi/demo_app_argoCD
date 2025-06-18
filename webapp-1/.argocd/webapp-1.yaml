@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/your-repo/webapp-helm.git
     targetRevision: HEAD
-    path: webapp-helm
+    path: webapp-1
     helm:
       values: |
         web:
