@@ -6,14 +6,18 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/ugardi/demo_app_argoCD.git #https://github.com/your-repo/webapp-helm.git  # Change to your repo URL
+    repoURL: https://github.com/your-repo/webapp-helm.git
     targetRevision: HEAD
     path: webapp-helm
     helm:
       values: |
         web:
           ingress:
-            host: webapp.172.214.68.113.nip.io  # Replace with your actual IP or domain
+            hosts:
+              - host: webapp.yourdomain.com
+                paths:
+                  - path: /
+                    pathType: Prefix
   destination:
     server: https://kubernetes.default.svc
     namespace: default
@@ -22,4 +26,4 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
-    - CreateNamespace=true
+      - CreateNamespace=true
