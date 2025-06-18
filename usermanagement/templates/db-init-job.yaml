@@ -1,0 +1,16 @@
+# user-management-app/helm/templates/db-init-job.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Chart.Name }}-db-init
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: db-init
+        image: postgres:13
+        command: ["psql", "-h", "postgres-service", "-U", "postgres", "-d", "userdb", "-c", "CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, username VARCHAR(50) UNIQUE NOT NULL, password VARCHAR(255) NOT NULL, email VARCHAR(100));"]
+        env:
+        - name: PGPASSWORD
+          value: "postgres"
