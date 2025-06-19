@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>{% if user %}Edit User{% else %}Add New User{% endif %}</h2>
+<form method="post">
+    <div style="margin-bottom: 15px;">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" value="{{ user.username if user else '' }}" required style="padding: 8px; width: 100%;">
+    </div>
+    {% if not user %}
+    <div style="margin-bottom: 15px;">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required style="padding: 8px; width: 100%;">
+    </div>
+    {% endif %}
+    <div style="margin-bottom: 15px;">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value="{{ user.email if user else '' }}" required style="padding: 8px; width: 100%;">
+    </div>
+    <button type="submit" class="btn">Save</button>
+    <a href="{{ url_for('user_page') }}" style="margin-left: 10px; text-decoration: none;">Cancel</a>
+</form>
+{% endblock %}
