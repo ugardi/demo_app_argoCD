@@ -2,7 +2,7 @@
 replicaCount: 1
 
 image:
-  repository: docker.io/ugardi/user-management-app:latest #ugardi/user-management-app   # docker.io/ugardi/user-management-app:latest
+  repository: docker.io/ugardi/user-management-app #ugardi/user-management-app   # docker.io/ugardi/user-management-app:latest
   tag: latest
   pullPolicy: Always
 
