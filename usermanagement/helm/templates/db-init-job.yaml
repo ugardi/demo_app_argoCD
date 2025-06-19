@@ -1,15 +1,17 @@
-# user-management-app/helm/templates/db-init-job.yaml
+# helm/templates/db-init-job.yaml
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ .Chart.Name }}-db-init
+  name: {{ include "user-management-app.fullname" . }}-db-init
+  labels:
+    {{- include "user-management-app.labels" . | nindent 4 }}
 spec:
   template:
     spec:
       restartPolicy: OnFailure
       containers:
       - name: db-init
-        image: postgres:13
+        image: postgres:13-alpine
         command: 
         - /bin/sh
         - -c
@@ -28,6 +30,39 @@ spec:
         env:
         - name: PGPASSWORD
           value: {{ .Values.postgresql.auth.password | quote }}
+
+
+
+# user-management-app/helm/templates/db-init-job.yaml
+# apiVersion: batch/v1
+# kind: Job
+# metadata:
+#   name: {{ .Chart.Name }}-db-init
+# spec:
+#   template:
+#     spec:
+#       restartPolicy: OnFailure
+#       containers:
+#       - name: db-init
+#         image: postgres:13
+#         command: 
+#         - /bin/sh
+#         - -c
+#         - |
+#           until pg_isready -h {{ .Release.Name }}-postgresql -U postgres; do
+#             echo "Waiting for PostgreSQL to start..."
+#             sleep 2
+#           done
+#           psql -h {{ .Release.Name }}-postgresql -U postgres -d {{ .Values.postgresql.auth.database }} -c "
+#           CREATE TABLE IF NOT EXISTS users (
+#             id SERIAL PRIMARY KEY,
+#             username VARCHAR(50) UNIQUE NOT NULL,
+#             password VARCHAR(255) NOT NULL,
+#             email VARCHAR(100)
+#           );"
+#         env:
+#         - name: PGPASSWORD
+#           value: {{ .Values.postgresql.auth.password | quote }}
 
 
 

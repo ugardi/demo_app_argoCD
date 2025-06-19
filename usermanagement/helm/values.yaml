@@ -1,5 +1,3 @@
-# user-management-app/helm/values.yaml
-
 # helm/values.yaml
 replicaCount: 1
 
@@ -10,14 +8,6 @@ image:
 
 flask:
   env: production
-
-resources:
-  requests:
-    cpu: 100m
-    memory: 128Mi
-  limits:
-    cpu: 500m
-    memory: 512Mi
 
 postgresql:
   enabled: true
@@ -30,6 +20,53 @@ postgresql:
   persistence:
     enabled: true
     size: 1Gi
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# # user-management-app/helm/values.yaml
+
+# # helm/values.yaml
+# replicaCount: 1
+
+# image:
+#   repository: your-registry/user-management-app
+#   tag: latest
+#   pullPolicy: IfNotPresent
+
+# flask:
+#   env: production
+
+# resources:
+#   requests:
+#     cpu: 100m
+#     memory: 128Mi
+#   limits:
+#     cpu: 500m
+#     memory: 512Mi
+
+# postgresql:
+#   enabled: true
+#   fullnameOverride: "{{ .Release.Name }}-postgresql"
+#   auth:
+#     postgresPassword: "postgres"
+#     username: "postgres"
+#     password: "postgres"
+#     database: "userdb"
+#   persistence:
+#     enabled: true
+#     size: 1Gi
 
 
 

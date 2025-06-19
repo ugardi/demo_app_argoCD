@@ -1,0 +1,32 @@
+# .argocd/argocd-app.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: user-management-app
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  source:
+    repoURL: https://github.com/ugardi/demo_app_argoCD.git   #https://github.com/abc/demo_app_argoCD.git
+    targetRevision: HEAD
+    path: usermanagement
+    helm:
+      releaseName: user-management-app
+      values: |
+        image:
+          repository: your-registry/user-management-app #   <----- check this
+          tag: latest
+        postgresql:
+          enabled: true
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ApplyOutOfSyncOnly=true

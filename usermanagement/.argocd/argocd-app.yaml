@@ -1,4 +1,4 @@
-# user-management-app/k8s/argocd-app.yaml
+# user-management-  .argocd/argocd-app.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -10,7 +10,7 @@ spec:
     server: https://kubernetes.default.svc
     namespace: default
   source:
-    repoURL: https://github.com/ugardi/demo_app_argoCD.git   #https://github.com/your-repo/user-management-app.git
+    repoURL: https://github.com/abc/demo_app_argoCD.git   #https://github.com/your-repo/user-management-app.git
     targetRevision: HEAD
     path: usermanagement 
     helm:
