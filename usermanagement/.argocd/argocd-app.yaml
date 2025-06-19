@@ -5,13 +5,14 @@ metadata:
   name: user-management-app
   namespace: argocd
 spec:
+  project: default
   destination:
     server: https://kubernetes.default.svc
     namespace: default
   source:
-    repoURL: https://github.com/your-repo/user-management-app.git
+    repoURL: https://github.com/ugardi/demo_app_argoCD.git   #https://github.com/your-repo/user-management-app.git
     targetRevision: HEAD
-    path: helm
+    path: usermanagement 
     helm:
       releaseName: user-management-app
   syncPolicy:

@@ -2,7 +2,7 @@
 replicaCount: 1
 
 image:
-  repository: your-docker-repo/user-management-app
+  repository: docker.io/ugardi/user-management-app:latest #ugardi/user-management-app   # docker.io/ugardi/user-management-app:latest
   tag: latest
   pullPolicy: Always
 
@@ -14,7 +14,7 @@ ingress:
   enabled: true
   className: "nginx"
   hosts:
-    - host: "app.12.23.23.43.nip.io"
+    - host: "app.172.214.68.113.nip.io"
       paths:
         - path: /
           pathType: Prefix
