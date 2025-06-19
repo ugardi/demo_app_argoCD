@@ -19,7 +19,7 @@ spec:
       releaseName: user-management-app
       values: |
         image:
-          repository: your-registry/user-management-app #   <----- check this
+          repository: docker.io/ugardi/user-management-app  #   <----- check this
           tag: latest
         postgresql:
           enabled: true
