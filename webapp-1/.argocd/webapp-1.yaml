@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: webapp
+  name: webapp1
   namespace: argocd
 spec:
   project: default
@@ -14,11 +14,7 @@ spec:
         web:
           ingress:
             hosts:
-<<<<<<< HEAD
-              - host: webapp.172.214.68.113.nip.io #webapp-1.yourdomain.com
-=======
               - host:  webapp.172.214.68.113.nip.io  #webapp.yourdomain.com
->>>>>>> 1f4189acf0b130683a5a4d150fced13fd41b795e
                 paths:
                   - path: /
                     pathType: Prefix

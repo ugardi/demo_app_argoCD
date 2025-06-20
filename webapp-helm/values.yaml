@@ -6,7 +6,7 @@ web:
   serviceType: ClusterIP
   ingress:
     enabled: true
-    host: webapp.20.242.229.89.nip.io #webapp.example.com  # Change this to your domain or use something like webapp.192.168.1.1.nip.io
+    host: webapp.48.216.178.33.nip.io #webapp.example.com  # Change this to your domain or use something like webapp.192.168.1.1.nip.io
     path: /
     className: "nginx"
 

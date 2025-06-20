@@ -13,7 +13,7 @@ spec:
       values: |
         web:
           ingress:
-            host: webapp.172.214.68.113.nip.io  # Replace with your actual IP or domain
+            host: webapp.20.242.229.89.nip.io  # Replace with your actual IP or domain
   destination:
     server: https://kubernetes.default.svc
     namespace: webapp
