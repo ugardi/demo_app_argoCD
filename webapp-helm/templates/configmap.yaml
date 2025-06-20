@@ -1,17 +1,20 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Chart.Name }}-html-content
+name: {{ .Chart.Name }}-html-content
 data:
-  index.html: |
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>WebApp with PostgreSQL</title>
-    </head>
-    <body>
-        <h1>Welcome to Our Web Application</h1>
-        <p>This application is connected to a PostgreSQL database.</p>
-        <p>Application version: {{ .Chart.AppVersion }}</p>
-    </body>
-    </html>
+index.html: |
+<!DOCTYPE html>
+<html>
+<head>
+<title>WebApp with PostgreSQL</title>
+</head>
+<body>
+<h1>Welcome to Our Web Application</h1>
+<p>This application is connected to a PostgreSQL database.</p>
+<p>Application version: {{ .Chart.AppVersion }}</p>
+<h2>Database Information</h2>
+<p>Database Name: {{ .Values.db.database }}</p>
+<p>Database User: {{ .Values.db.user }}</p>
+</body>
+</html>
