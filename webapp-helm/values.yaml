@@ -1,7 +1,7 @@
 # Web Application Configuration
 web:
   image: nginx:alpine
-  replicaCount: 2
+  replicaCount: 5
   port: 80
   serviceType: ClusterIP
   ingress:
