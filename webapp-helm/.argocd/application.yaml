@@ -13,7 +13,7 @@ spec:
       values: |
         web:
           ingress:
-            host: webapp.${var.ingress_public_ip}.nip.io  # Replace with your actual IP or domain
+            host: webapp.${ingress_public_ip}.nip.io  # Replace with your actual IP or domain
   destination:
     server: https://kubernetes.default.svc
     namespace: webapp
